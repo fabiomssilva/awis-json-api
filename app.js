@@ -9,7 +9,8 @@ app.get('/', (req, res) => {
     res.send('AWIS Json API');
 });
 
-app.get('*', (req, res) => {
+app.get('/api*', (req, res) => {
+
     const path = req.originalUrl;
 
     const opts = {
@@ -30,14 +31,13 @@ app.get('*', (req, res) => {
         r.on('end', () => {
             xml2js.parseString(body, (err, result) => {
                 console.log('Error: ', err);
-                console.log(result);
+                res.send(JSON.stringify(result));
             });
         });
     }).on('error', (e) => {
         console.log('Got an error: ', e);
     });
 
-    res.send('AWIS Json API *');
 });
 
 module.exports = app;
